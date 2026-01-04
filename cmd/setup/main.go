@@ -10,7 +10,7 @@ func GetCommits(c *gin.Context) {
 	user := c.Param("user")
 	repo := c.Param("repo")
 	commits, err := provider.SearchCommits(user, repo)
-	if err != nil {
+	if err != nil { // Return error
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err,
 		})
