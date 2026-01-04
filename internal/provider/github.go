@@ -21,7 +21,7 @@ func SearchCommits(user, repo string) (
 		return nil, err
 	}
 
-	result := models.Metric{
+	result := models.Metric{ // Call Metric Model
 		Total: len(commits),
 		Type:  make(map[string]int),
 	}
