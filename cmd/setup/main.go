@@ -25,6 +25,10 @@ func main() {
 	}
 
 	log.Printf("Listening on port %s", port)
+
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func GetCommits(c *gin.Context) {
