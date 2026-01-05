@@ -6,6 +6,16 @@ import (
 	"setup/internal/provider"
 )
 
+func main() {
+	r := gin.Default()
+
+	r.GET("/metrics/:user/:repo", GetCommits)
+
+	err := r.Run()
+	if err != nil {
+		return
+	}
+}
 func GetCommits(c *gin.Context) {
 	user := c.Param("user")
 	repo := c.Param("repo")
