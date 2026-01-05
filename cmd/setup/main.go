@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"os"
 	"setup/internal/provider"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +18,15 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Printf("Listening on port %s", port)
 }
+
 func GetCommits(c *gin.Context) {
 	user := c.Param("user")
 	repo := c.Param("repo")
