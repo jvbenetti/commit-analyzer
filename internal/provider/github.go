@@ -2,10 +2,12 @@ package provider
 
 import (
 	"context"
+	"os"
 	"setup/internal/analyzer"
 	"setup/models"
 
 	"github.com/google/go-github/v50/github"
+	"golang.org/x/oauth2"
 )
 
 // SearchCommits func return a pointer for optimization
@@ -13,8 +15,22 @@ func SearchCommits(user, repo string) (
 	*models.Metric,
 	error,
 ) {
-	client := github.NewClient(nil)
+	token := os.Getenv("GITHUB_TOKEN")
+
 	ctx := context.Background()
+	var client *github.Client
+
+	if token == "" {
+		// Local token
+		client = github.NewClient(nil)
+	} else {
+		ts := oauth2.StaticTokenSource(
+			&oauth2.Token{AccessToken: token},
+		)
+		tc := oauth2.NewClient(ctx, ts)
+
+		client = github.NewClient(tc)
+	}
 
 	commits, _, err := client.Repositories.ListCommits(ctx, user, repo, nil)
 	if err != nil {
