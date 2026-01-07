@@ -16,7 +16,7 @@ func main() {
 
 	err := r.Run() // Run var
 	if err != nil {
-		return
+		log.Fatal("Error with server init: ", err)
 	}
 
 	port := os.Getenv("PORT") // Var to port with conditional
