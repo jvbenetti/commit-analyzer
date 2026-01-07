@@ -10,11 +10,11 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	r := gin.Default() // Defined router
 
-	r.GET("/metrics/:user/:repo", GetCommits)
+	r.GET("/metrics/:user/:repo", GetCommits) // Defined endpoint
 
-	err := r.Run()
+	err := r.Run() // Run var
 	if err != nil {
 		return
 	}
