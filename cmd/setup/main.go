@@ -19,7 +19,7 @@ func main() {
 		return
 	}
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("PORT") // Var to port with conditional
 	if port == "" {
 		port = "8080"
 	}
