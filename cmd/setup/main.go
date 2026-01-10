@@ -14,21 +14,16 @@ func main() {
 
 	r.GET("/metrics/:user/:repo", GetCommits) // Defined endpoint
 
-	err := r.Run() // Run var
-	if err != nil {
-		log.Fatal("Error with server init: ", err)
-	}
-
 	port := os.Getenv("PORT") // Var to port with conditional
 	if port == "" {
 		port = "8080"
 	}
 
-	log.Printf("Listening on port %s", port)
-
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatal(err)
+	if err := r.Run(":" + port); err != nil {
+		log.Fatal("Error starting server: ", err)
 	}
+
+	log.Printf("Listening on port %s", port)
 }
 
 func GetCommits(c *gin.Context) {
