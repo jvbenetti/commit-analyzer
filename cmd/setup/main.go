@@ -19,11 +19,11 @@ func main() {
 		port = "8080"
 	}
 
+	log.Printf("Listening on port %s", port) // Logs before the port
+
 	if err := r.Run(":" + port); err != nil {
 		log.Fatal("Error starting server: ", err)
 	}
-
-	log.Printf("Listening on port %s", port)
 }
 
 func GetCommits(c *gin.Context) {
