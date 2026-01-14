@@ -37,6 +37,20 @@ func SearchCommits(user, repo string) (
 
 	var allCommits []*&github.RepositoryCommit
 
+	for {
+		commits, resp, err := client.Repositories.ListCommits(ctx, user, repo, opt)
+		if err != nil {
+			return nil, err
+		}
+
+		allCommits = append(allCommits, commits...)
+
+		if resp.NextPage == 0 {
+			break
+		}
+
+		opt.Page = resp.NextPage
+	}
 	commits, _, err := client.Repositories.ListCommits(ctx, user, repo, nil)
 	if err != nil {
 		return nil, err
