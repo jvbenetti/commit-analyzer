@@ -31,6 +31,9 @@ func SearchCommits(user, repo string) (
 
 		client = github.NewClient(tc)
 	}
+	opt := &github.CommitsListOptions{
+		ListOptions: github.ListOptions{PerPage: 100},
+	}
 
 	commits, _, err := client.Repositories.ListCommits(ctx, user, repo, nil)
 	if err != nil {
