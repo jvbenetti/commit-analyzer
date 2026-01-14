@@ -35,7 +35,7 @@ func SearchCommits(user, repo string) (
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
 
-	var allCommits []*&github.RepositoryCommit
+	var allCommits []*github.RepositoryCommit
 
 	for {
 		commits, resp, err := client.Repositories.ListCommits(ctx, user, repo, opt)
@@ -51,16 +51,12 @@ func SearchCommits(user, repo string) (
 
 		opt.Page = resp.NextPage
 	}
-	commits, _, err := client.Repositories.ListCommits(ctx, user, repo, nil)
-	if err != nil {
-		return nil, err
-	}
 
 	result := models.Metric{ // Call Metric Model
-		Total: len(commits),
+		Total: len(allCommits),
 		Type:  make(map[string]int),
 	}
-	for _, commit := range commits {
+	for _, commit := range allCommits {
 		// Check is commit is nil, good practice
 		if commit.Commit != nil && commit.Commit.Message != nil {
 			msg := *commit.Commit.Message
