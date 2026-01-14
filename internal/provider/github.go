@@ -34,21 +34,24 @@ func SearchCommits(user, repo string) (
 	opt := &github.CommitsListOptions{
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
-
+	// Slice to get list of commits
 	var allCommits []*github.RepositoryCommit
 
+	// For loop, page -> page
 	for {
 		commits, resp, err := client.Repositories.ListCommits(ctx, user, repo, opt)
 		if err != nil {
 			return nil, err
 		}
 
+		// Get new commits and append in list
 		allCommits = append(allCommits, commits...)
 
 		if resp.NextPage == 0 {
 			break
 		}
 
+		// Go to next "page"
 		opt.Page = resp.NextPage
 	}
 
