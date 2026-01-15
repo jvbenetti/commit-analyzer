@@ -1,6 +1,10 @@
 package models
 
-import tea "github.com/charmbracelet/bubbletea"
+import (
+	"fmt"
+
+	tea "github.com/charmbracelet/bubbletea"
+)
 
 type BubbleTea struct {
 	Choices  []string         // items on the to-do list
@@ -53,4 +57,34 @@ func (m BubbleTea) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// Return the updated model to the Bubble Tea runtime for processing.
 	// Note that we're not returning a command.
 	return m, nil
+}
+
+func (m BubbleTea) View() string {
+	// The header
+	s := "What should we buy at the market?\n\n"
+
+	// Iterate over our Choices
+	for i, choice := range m.Choices {
+
+		// Is the cursor pointing at this choice?
+		cursor := " " // no cursor
+		if m.Cursor == i {
+			cursor = ">" // cursor!
+		}
+
+		// Is this choice selected?
+		checked := " " // not selected
+		if _, ok := m.Selected[i]; ok {
+			checked = "x" // selected!
+		}
+
+		// Render the row
+		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
+	}
+
+	// The footer
+	s += "\nPress q to quit.\n"
+
+	// Send the UI for rendering
+	return s
 }
