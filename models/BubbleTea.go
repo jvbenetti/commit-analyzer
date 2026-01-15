@@ -12,6 +12,13 @@ type BubbleTea struct {
 	Selected map[int]struct{} // which to-do items are Selected
 }
 
+func InitialModel() BubbleTea {
+	return BubbleTea{
+		Choices:  []string{"Buy carrots", "Buy celery", "Buy kohlrabi"},
+		Selected: make(map[int]struct{}),
+	}
+}
+
 func (m BubbleTea) Init() tea.Cmd {
 	// Just return `nil`, which means "no I/O right now, please."
 	return nil
