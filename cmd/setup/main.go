@@ -6,7 +6,6 @@ import (
 	"os"
 	"setup/internal/provider"
 
-	tea "github.com/charmbracelet/bubbletea"
 	"github.com/gin-gonic/gin"
 )
 
