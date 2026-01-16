@@ -6,25 +6,25 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type bubbleTea struct {
+type BubbleTea struct {
 	Choices  []string         // items on the to-do list
 	Cursor   int              // which to-do list item our cursor is pointing at
 	Selected map[int]struct{} // which to-do items are Selected
 }
 
-func initialModel() bubbleTea {
-	return bubbleTea{
+func InitialModel() BubbleTea {
+	return BubbleTea{
 		Choices:  []string{"Buy carrots", "Buy celery", "Buy kohlrabi"},
 		Selected: make(map[int]struct{}),
 	}
 }
 
-func (m bubbleTea) Init() tea.Cmd {
+func (m BubbleTea) Init() tea.Cmd {
 	// Just return `nil`, which means "no I/O right now, please."
 	return nil
 }
 
-func (m bubbleTea) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m BubbleTea) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
 	// Is it a key press?
@@ -66,7 +66,7 @@ func (m bubbleTea) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
-func (m bubbleTea) View() string {
+func (m BubbleTea) View() string {
 	// The header
 	s := "What should we buy at the market?\n\n"
 
