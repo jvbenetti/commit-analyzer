@@ -87,7 +87,7 @@ Siga os passos abaixo para executar a API na sua máquina.
 4.  **Execute a aplicação:**
     ```bash
     # Execute a partir da raiz do projeto
-    go run main.go
+    go run cmd/setup/main.go
     ```
     *(Nota: Se o seu arquivo main estiver dentro de uma pasta, use: `go run cmd/setup/main.go`)*
 
