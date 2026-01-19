@@ -9,11 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	r := gin.Default() // Defined router
-
+func SetupRouter() *gin.Engine {
+	r := gin.Default()                        // Defined router
 	r.GET("/metrics/:user/:repo", GetCommits) // Defined endpoint
+	return r
+}
 
+func main() {
+	r := SetupRouter()
 	port := os.Getenv("PORT") // Var to port with conditional
 	if port == "" {
 		port = "8080"
