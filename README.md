@@ -1,6 +1,6 @@
 # 📊 Commit Analyzer API
 
-Uma API REST desenvolvida em **Go (Golang)** utilizando o framework **Gin**. O objetivo deste projeto é analisar repositórios do GitHub e gerar métricas sobre os commits, categorizando-os baseados no padrão [Conventional Commits](https://www.conventionalcommits.org/) (ex: `feat`, `fix`, `chore`, etc.).
+Uma API REST desenvolvida em **Go (Golang)** utilizando o framework **Gin**. O objetivo deste projeto é analisar repositórios do GitHub e gerar métricas sobre os commits, categorizando-os baseados no padrão [Conventional Commits](https://www.conventionalcommits.org/) (ex: `feat`, `fix`, `chore`, `refactor`, etc.).
 
 ## 🚀 Live Demo
 
