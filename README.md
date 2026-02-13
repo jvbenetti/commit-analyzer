@@ -106,6 +106,7 @@ Contribuições são bem-vindas!
 4.  Comite suas mudanças (`git commit -m 'Adiciona a feature X'`).
 5.  Faça o Push (`git push origin feature/MinhaFeature`).
 6.  Abra um Pull Request.
+7.  Só aguardar!
 
 ---
 
