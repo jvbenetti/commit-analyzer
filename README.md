@@ -20,6 +20,42 @@ A API está atualmente hospedada na Railway e pode ser acessada publicamente:
 
 ## 📖 Documentação da API
 
+### Obter Alterações por Commit
+
+Retorna uma lista dos últimos commits (limitado a 100), contendo o identificador único (SHA) e o número total de linhas alteradas (adições e deleções) em cada commit.
+
+Endpoint:
+`GET /metrics/:user/:repo/changes`
+
+
+| Parâmetro | Tipo   | Descrição                                      |
+| :-------- | :----- | :--------------------------------------------- |
+| `user`    | string | Nome do usuário ou organização dono do repo.   |
+| `repo`    | string | Nome do repositório.                           |
+
+**Exemplo de Requisição:**
+
+```Bash
+curl https://commit-analyzer-production.up.railway.app/metrics/nome-do-usuario/nome-do-repo/changes
+```
+**Exemplo de Resposta:**
+```JSON
+[
+    {
+        "sha": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+        "changes": 145
+    },
+    {
+        "sha": "b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0a1",
+        "changes": 12
+    },
+    {
+        "sha": "c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0a1b2",
+        "changes": 890
+    }
+]
+```
+
 ### Obter Métricas de Commits
 
 Retorna a contagem total de commits e a distribuição por tipo (*type*) para um repositório específico.
