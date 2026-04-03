@@ -75,4 +75,12 @@ func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) 
 	ctx := context.Background()
 	var client *github.Client
 
+	if token == "" {
+		client = github.NewClient(nil)
+	} else {
+		ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token})
+		tc := oauth2.NewClient(ctx, ts)
+		client = github.NewClient(tc)
+	}
+
 }
