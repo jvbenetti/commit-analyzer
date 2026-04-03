@@ -97,4 +97,35 @@ func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) 
 			return nil, err
 		}
 
+		// Get detail in each commit
+		for _, commit := range commits {
+			if commit.SHA == nil {
+				continue
+			}
+
+			singleCommit, _, err := client.Repositories.GetCommit(ctx, user, repo, *commit.SHA, nil)
+			if err != nil {
+				continue
+			}
+
+			changes := 0
+			if singleCommit.Stats != nil {
+				changes = singleCommit.Stats.GetTotal()
+			}
+
+			results = append(results, models.CommitChanges{
+				SHA:     *commit.SHA,
+				Changes: changes,
+			})
+		}
+
+		if resp.NextPage == 0 {
+			break
+		}
+
+		// Go to next "page"
+		opt.Page = resp.NextPage
+	}
+
+	return results, nil
 }
