@@ -69,3 +69,10 @@ func SearchCommits(user, repo string) (
 	}
 	return &result, nil // Return a pointer and could be nil
 }
+
+func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) {
+	token := os.Getenv("GITHUB_TOKEN")
+	ctx := context.Background()
+	var client *github.Client
+
+}
