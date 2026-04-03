@@ -83,4 +83,18 @@ func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) 
 		client = github.NewClient(tc)
 	}
 
+	// With pagination to get ALL commits
+	opt := &github.CommitsListOptions{
+		ListOptions: github.ListOptions{PerPage: 100},
+	}
+
+	var results []models.CommitChanges
+
+	// Loop to paginate for all commits
+	for {
+		commits, resp, err := client.Repositories.ListCommits(ctx, user, repo, opt)
+		if err != nil {
+			return nil, err
+		}
+
 }
