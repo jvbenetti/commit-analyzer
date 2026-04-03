@@ -12,6 +12,8 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()                        // Defined router
 	r.GET("/metrics/:user/:repo", GetCommits) // Defined endpoint
+
+	r.GET("/metrics/:user/:repo/changes", GetCommitsChanges) // New endpoint
 	return r
 }
 
@@ -40,4 +42,17 @@ func GetCommits(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, commits)
+}
+
+func GetCommitsChanges(c *gin.Context) {
+	user := c.Param("user")
+	repo := c.Param("repo")
+
+	commitsChanges, err := provider.SearchAllCommitsChanges(user, repo)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, commitsChanges)
 }
