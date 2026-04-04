@@ -88,43 +88,51 @@ func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) 
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
 
-	var results []models.CommitChanges
+	var allCommits []*github.RepositoryCommit
 
-	// Loop to paginate for all commits
 	for {
 		commits, resp, err := client.Repositories.ListCommits(ctx, user, repo, opt)
 		if err != nil {
 			return nil, err
 		}
 
-		// Get detail in each commit
-		for _, commit := range commits {
-			if commit.SHA == nil {
-				continue
-			}
+		allCommits = append(allCommits, commits...)
 
-			singleCommit, _, err := client.Repositories.GetCommit(ctx, user, repo, *commit.SHA, nil)
-			if err != nil {
-				continue
-			}
-
-			changes := 0
-			if singleCommit.Stats != nil {
-				changes = singleCommit.Stats.GetTotal()
-			}
-
-			results = append(results, models.CommitChanges{
-				SHA:     *commit.SHA,
-				Changes: changes,
-			})
-		}
-
-		if resp.NextPage == 0 {
+		if resp.NextPage == 0 || len(allCommits) >= 200 {
 			break
 		}
 
-		// Go to next "page"
+		// Go to the next page
 		opt.Page = resp.NextPage
+	}
+
+	// Max 200 items
+	if len(allCommits) > 200 {
+		allCommits = allCommits[:200]
+	}
+
+	var results []models.CommitChanges
+
+	// Iter about 200 commit to get changes
+	for _, commit := range allCommits {
+		if commit.SHA == nil {
+			continue
+		}
+
+		singleCommit, _, err := client.Repositories.GetCommit(ctx, user, repo, *commit.SHA, nil)
+		if err != nil {
+			continue
+		}
+
+		changes := 0
+		if singleCommit.Stats != nil {
+			changes = singleCommit.Stats.GetTotal()
+		}
+
+		results = append(results, models.CommitChanges{
+			SHA:     *commit.SHA,
+			Changes: changes,
+		})
 	}
 
 	return results, nil
