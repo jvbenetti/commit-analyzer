@@ -98,7 +98,7 @@ func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) 
 
 		allCommits = append(allCommits, commits...)
 
-		if resp.NextPage == 0 || len(allCommits) >= 200 {
+		if resp.NextPage == 0 || len(allCommits) >= 2000 {
 			break
 		}
 
@@ -106,14 +106,14 @@ func SearchAllCommitsChanges(user, repo string) ([]models.CommitChanges, error) 
 		opt.Page = resp.NextPage
 	}
 
-	// Max 200 items
-	if len(allCommits) > 200 {
-		allCommits = allCommits[:200]
+	// Max 2000 items
+	if len(allCommits) > 2000 {
+		allCommits = allCommits[:2000]
 	}
 
 	var results []models.CommitChanges
 
-	// Iter about 200 commit to get changes
+	// Iter about 2000 commit to get changes
 	for _, commit := range allCommits {
 		if commit.SHA == nil {
 			continue
